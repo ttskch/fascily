@@ -4,22 +4,35 @@ mat-grid-tile {
 
 table {
   width: 100%;
-  tr {
-    td {
-      padding-top: 0.5em;
-      padding-bottom: 0.5em;
-      &:not(:last-child) {
-        padding-right: 1em;
-      }
-      &:nth-child(2) {
-        width: 80%;
-      }
-    }
-  }
 }
 
 :host ::ng-deep {
   .mat-figure {
     align-items: start !important;
+  }
+
+  tbody {
+    tr {
+      cursor: pointer;
+      &:hover {
+        background-color: whitesmoke;
+      }
+      &.active {
+        background-color: #FFF3E0;
+      }
+      td {
+        padding-top: 0.5em;
+        padding-bottom: 0.5em;
+        &:not(:last-child) {
+          padding-right: 1em;
+        }
+        &:nth-child(1) {
+          width: 2em;
+        }
+        &:nth-child(3) {
+          width: 4em;
+        }
+      }
+    }
   }
 }
