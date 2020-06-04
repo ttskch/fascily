@@ -1,0 +1,25 @@
+mat-grid-tile {
+  background: lightblue;
+}
+
+table {
+  width: 100%;
+  tr {
+    td {
+      padding-top: 0.5em;
+      padding-bottom: 0.5em;
+      &:not(:last-child) {
+        padding-right: 1em;
+      }
+      &:nth-child(2) {
+        width: 80%;
+      }
+    }
+  }
+}
+
+:host ::ng-deep {
+  .mat-figure {
+    align-items: start !important;
+  }
+}
