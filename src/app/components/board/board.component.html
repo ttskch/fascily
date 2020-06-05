@@ -1,6 +1,5 @@
-<mat-grid-list cols="2" rowHeight="80vh">
-
-  <mat-grid-tile>
+<div class="grid grid-cols-2 gap-0 h-full">
+  <div class="topics border-r border-gray-300">
     <table mat-table [dataSource]="dataSource" matSort>
 
       <tr mat-header-row *matHeaderRowDef="tableColumns; sticky: true"></tr>
@@ -24,15 +23,20 @@
       </ng-container>
 
     </table>
-  </mat-grid-tile>
+  </div>
 
-  <mat-grid-tile>
+  <div class="comments">
+    <div class="topic">
+      <img src="https://avatars2.githubusercontent.com/u/4360663" class="avatar">
+      <p>{{ selectedTopic.body }}</p>
+    </div>
     <ng-container *ngIf="selectedTopic">
       <ng-container *ngFor="let comment of selectedTopic.comments">
-        {{ comment.id }}
-        {{ comment.body }}
+        <div class="comment">
+          <img src="https://avatars2.githubusercontent.com/u/4360663" class="avatar">
+          <p>{{ comment.body }}</p>
+        </div>
       </ng-container>
     </ng-container>
-  </mat-grid-tile>
-
-</mat-grid-list>
+  </div>
+</div>

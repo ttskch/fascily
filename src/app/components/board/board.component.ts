@@ -43,5 +43,7 @@ export class BoardComponent implements OnInit {
 
     this.dataSource = new MatTableDataSource(this.topics)
     this.dataSource.sort = this.sort
+
+    this.selectedTopic = this.topics[0]
   }
 }

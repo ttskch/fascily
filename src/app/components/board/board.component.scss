@@ -1,38 +1,61 @@
-mat-grid-tile {
-  background: lightblue;
-}
+:host {
+  display: block;
 
-table {
-  width: 100%;
-}
+  ::ng-deep {
+    .mat-figure {
+      align-items: start !important;
+    }
 
-:host ::ng-deep {
-  .mat-figure {
-    align-items: start !important;
+    tbody {
+      tr {
+        cursor: pointer;
+        &:hover {
+          background-color: whitesmoke;
+        }
+        &.active {
+          background-color: #FFF3E0;
+        }
+        td {
+          padding-top: 0.5em;
+          padding-bottom: 0.5em;
+          &:not(:last-child) {
+            padding-right: 1em;
+          }
+          &:nth-child(1) {
+            width: 2em;
+          }
+          &:nth-child(3) {
+            width: 5em;
+          }
+        }
+      }
+    }
   }
+}
 
-  tbody {
-    tr {
-      cursor: pointer;
-      &:hover {
-        background-color: whitesmoke;
-      }
-      &.active {
-        background-color: #FFF3E0;
-      }
-      td {
-        padding-top: 0.5em;
-        padding-bottom: 0.5em;
-        &:not(:last-child) {
-          padding-right: 1em;
-        }
-        &:nth-child(1) {
-          width: 2em;
-        }
-        &:nth-child(3) {
-          width: 4em;
-        }
-      }
+.topics {
+  table {
+    width: 100%;
+  }
+}
+
+.comments {
+  padding: 1em;
+
+  .topic, .comment {
+    padding: 1em;
+    border-bottom: 1px solid lightgrey;
+    display: flex;
+
+    img.avatar {
+      border-radius: 100%;
+      width: 3em;
+      height: 3em;
+      object-fit: cover;
+      margin-right: 1em;
+    }
+    
+    p {
     }
   }
 }
