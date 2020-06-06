@@ -20,7 +20,7 @@ export class BoardComponent implements OnInit {
   selectedTopic: Topic|null = null;
 
   tableColumns = ['body', 'done'];
-  dataSource: MatTableDataSource<any>|null = null;
+  dataSource: MatTableDataSource<Topic>;
 
   constructor(
     private route: ActivatedRoute,
@@ -30,13 +30,17 @@ export class BoardComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.boardRepository.get(params.boardId).subscribe(board => {
-        this.topics = board.topics;
+        this.renderTable(board.topics);
       });
     });
 
-    this.dataSource = new MatTableDataSource(this.topics);
-    this.dataSource.sort = this.sort;
+    this.renderTable(this.topics);
+  }
 
+  renderTable(topics: Topic[]): void {
+    this.topics = topics;
+    this.dataSource = new MatTableDataSource(topics);
+    this.dataSource.sort = this.sort;
     this.selectedTopic = this.topics[0];
   }
 }

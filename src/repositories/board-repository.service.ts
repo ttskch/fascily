@@ -1,36 +1,38 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, zip } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+
+import { AngularFirestore } from '@angular/fire/firestore';
 
 import { Board } from '../models/board';
 import { Topic } from '../models/topic';
-import { Comment } from '../models/comment';
+import { TopicRepositoryService } from './topic-repository.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BoardRepositoryService {
 
-  constructor() {}
+  constructor(
+    private firestore: AngularFirestore,
+    private topicRepository: TopicRepositoryService,
+  ) {}
 
   get(id: string): Observable<Board> {
-    const topics = [
-      {body: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo', done: false, comments: [
-          {body: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem'} as Comment,
-          {body: 'Li Europan lingues es membres del sam familie. Lor separat'} as Comment,
-          {body: 'Far far away, behind the word mountains, far from the'} as Comment,
-        ]} as Topic,
-      {body: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo', done: true, comments: [
-          {body: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem'} as Comment,
-          {body: 'Li Europan lingues es membres del sam familie. Lor separat'} as Comment,
-          {body: 'Far far away, behind the word mountains, far from the'} as Comment,
-        ]} as Topic,
-      {body: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo', done: false, comments: [
-          {body: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem'} as Comment,
-          {body: 'Li Europan lingues es membres del sam familie. Lor separat'} as Comment,
-          {body: 'Far far away, behind the word mountains, far from the'} as Comment,
-        ]} as Topic,
-    ];
-
-    return of({name: '', topics: topics} as Board);
+    return this.firestore.doc<Board>(`boards/${id}`).valueChanges().pipe(
+      map((board: Board) => {
+        return {
+          board: board,
+          topicIds: board.topics.map((topic: any) => topic.path.replace(/^topics\//, '')),
+        };
+      }),
+      switchMap(({board, topicIds}) => {
+        return zip(...topicIds.map(topicId => this.topicRepository.get(topicId))).pipe(
+          map((topics: Topic[]) => {
+            return Object.assign(board, {topics: topics});
+          }),
+        );
+      })
+    );
   }
 }
