@@ -10,10 +10,10 @@
       tr {
         cursor: pointer;
         &:hover {
-          background-color: whitesmoke;
+          @apply bg-gray-200;
         }
         &.active {
-          background-color: #FFF3E0;
+          @apply bg-orange-100;
         }
         td {
           padding-top: 0.5em;
@@ -34,6 +34,8 @@
 }
 
 .topics {
+  @apply border-r border-gray-300;
+
   table {
     width: 100%;
   }
@@ -43,9 +45,9 @@
   padding: 1em;
 
   .topic, .comment {
-    padding: 1em;
-    border-bottom: 1px solid lightgrey;
     display: flex;
+    padding: 1em;
+    @apply border-b border-gray-300;
 
     img.avatar {
       border-radius: 100%;
