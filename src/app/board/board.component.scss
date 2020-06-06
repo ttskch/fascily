@@ -1,5 +1,6 @@
 :host {
   display: block;
+  height: 80vh;
 
   ::ng-deep {
     .mat-figure {
@@ -21,11 +22,8 @@
           &:not(:last-child) {
             padding-right: 1em;
           }
-          &:nth-child(1) {
-            width: 2em;
-          }
-          &:nth-child(3) {
-            width: 5em;
+          &:nth-child(2) {
+            min-width: 5em;
           }
         }
       }

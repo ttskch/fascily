@@ -14,12 +14,16 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BoardComponent } from './components/board/board.component';
+import { LayoutComponent } from './layout/layout.component';
+import { HomeComponent } from './home/home.component';
+import { BoardComponent } from './board/board.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    BoardComponent
+    LayoutComponent,
+    HomeComponent,
+    BoardComponent,
   ],
   imports: [
     BrowserModule,

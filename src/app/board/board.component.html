@@ -5,11 +5,6 @@
       <tr mat-header-row *matHeaderRowDef="tableColumns; sticky: true"></tr>
       <tr mat-row *matRowDef="let topic; columns: tableColumns;" (click)="selectedTopic = topic" [ngClass]="{active: topic === selectedTopic}"></tr>
 
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
-        <td mat-cell *matCellDef="let topic">{{ topic.id }}</td>
-      </ng-container>
-
       <ng-container matColumnDef="body">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>トピック</th>
         <td mat-cell *matCellDef="let topic">{{ topic.body }}</td>
@@ -28,15 +23,13 @@
   <div class="comments">
     <div class="topic">
       <img src="https://avatars2.githubusercontent.com/u/4360663" class="avatar">
-      <p>{{ selectedTopic.body }}</p>
+      <p>{{ selectedTopic?.body }}</p>
     </div>
-    <ng-container *ngIf="selectedTopic">
-      <ng-container *ngFor="let comment of selectedTopic.comments">
-        <div class="comment">
-          <img src="https://avatars2.githubusercontent.com/u/4360663" class="avatar">
-          <p>{{ comment.body }}</p>
-        </div>
-      </ng-container>
+    <ng-container *ngFor="let comment of selectedTopic?.comments">
+      <div class="comment">
+        <img src="https://avatars2.githubusercontent.com/u/4360663" class="avatar">
+        <p>{{ comment.body }}</p>
+      </div>
     </ng-container>
   </div>
 </div>
