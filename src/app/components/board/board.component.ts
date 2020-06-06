@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Observable } from 'rxjs';
+
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 import { Topic } from '../../modles/topic';
 import { Comment } from '../../modles/comment';
@@ -20,9 +23,18 @@ export class BoardComponent implements OnInit {
   tableColumns = ['id', 'body', 'done']
   dataSource: MatTableDataSource<any>|null = null
 
-  constructor() {}
+  items: Observable<any[]>;
+
+  constructor(
+    private firestore: AngularFirestore,
+  ) {
+    this.items = firestore.collection('topics').valueChanges();
+  }
 
   ngOnInit(): void {
+
+    this.items.subscribe(items => console.log(items))
+
     this.topics = [
       {id: 1, body: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo', done: false, comments: [
           {id: 1, body: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem'} as Comment,

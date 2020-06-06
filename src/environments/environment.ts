@@ -3,7 +3,17 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  firebase: {
+    apiKey: 'AIzaSyDJ95HqwmW7uwyETngP6ADQIaGFLI6W2mU',
+    authDomain: 'fascily.firebaseapp.com',
+    databaseURL: 'https://fascily.firebaseio.com',
+    projectId: 'fascily',
+    storageBucket: 'fascily.appspot.com',
+    messagingSenderId: '507350405734',
+    appId: '1:507350405734:web:6db586cea41ebe9e7213a7',
+    measurementId: 'G-WWJWLTPD3S',
+  },
 };
 
 /*
