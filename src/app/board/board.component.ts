@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
+import { BoardRepositoryService } from '../../repositories/board-repository.service';
 import { Topic } from '../../models/topic';
-import { Comment } from '../../models/comment';
 
 @Component({
   selector: 'app-board',
@@ -21,26 +22,17 @@ export class BoardComponent implements OnInit {
   tableColumns = ['body', 'done'];
   dataSource: MatTableDataSource<any>|null = null;
 
-  constructor() {}
+  constructor(
+    private route: ActivatedRoute,
+    private boardRepository: BoardRepositoryService,
+  ) {}
 
   ngOnInit(): void {
-    this.topics = [
-      {body: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo', done: false, comments: [
-          {body: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem'} as Comment,
-          {body: 'Li Europan lingues es membres del sam familie. Lor separat'} as Comment,
-          {body: 'Far far away, behind the word mountains, far from the'} as Comment,
-        ]} as Topic,
-      {body: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo', done: true, comments: [
-          {body: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem'} as Comment,
-          {body: 'Li Europan lingues es membres del sam familie. Lor separat'} as Comment,
-          {body: 'Far far away, behind the word mountains, far from the'} as Comment,
-        ]} as Topic,
-      {body: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo', done: false, comments: [
-          {body: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem'} as Comment,
-          {body: 'Li Europan lingues es membres del sam familie. Lor separat'} as Comment,
-          {body: 'Far far away, behind the word mountains, far from the'} as Comment,
-        ]} as Topic,
-    ]
+    this.route.params.subscribe(params => {
+      this.boardRepository.get(params.boardId).subscribe(board => {
+        this.topics = board.topics;
+      });
+    });
 
     this.dataSource = new MatTableDataSource(this.topics);
     this.dataSource.sort = this.sort;
