@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
-import { BoardRepositoryService } from '../../repositories/board-repository.service';
 import { Topic } from '../../models/topic';
 
 @Component({
@@ -24,16 +23,15 @@ export class BoardComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private boardRepository: BoardRepositoryService,
   ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      this.boardRepository.get(params.boardId).subscribe(board => {
-        this.renderTable(board.topics);
-      });
+    // get board from resolver
+    this.route.data.subscribe(data => {
+      this.renderTable(data.board.topics);
     });
 
+    // render empty table
     this.renderTable(this.topics);
   }
 

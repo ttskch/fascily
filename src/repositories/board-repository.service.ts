@@ -29,10 +29,10 @@ export class BoardRepositoryService {
       switchMap(({board, topicIds}) => {
         return zip(...topicIds.map(topicId => this.topicRepository.get(topicId))).pipe(
           map((topics: Topic[]) => {
-            return Object.assign(board, {topics: topics});
+            return Object.assign(board, {topics: topics}) as Board;
           }),
         );
-      })
+      }),
     );
   }
 }
